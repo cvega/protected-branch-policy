@@ -30,7 +30,7 @@ if __name__ == "__main__":
         )
         exit()
     url = "https://api.github.com"
-    token = os.getenv("GITHUB_TOKEN")
+    token = sys.argv[2]
     headers = {
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3+json",
