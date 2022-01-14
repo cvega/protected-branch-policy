@@ -44,5 +44,7 @@ if __name__ == "__main__":
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3+json",
     }
-    get_repos(sys.argv[1])
-    get_default_branch()
+    org = sys.argv[1]
+    
+    get_repos(org)
+    get_default_branch(org)
