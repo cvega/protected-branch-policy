@@ -36,16 +36,22 @@ def get_branch_protections(default_branch):
             f"{url}/repos/{org}/{repo}/branches/{branch}/protection",
             headers=headers,
         ).json()
-        branch_protections[repo] = resp
+        branch_protections[repo] = {branch: resp}
     return branch_protections
 
 
-def set_branch_protections(repo):
+def set_branch_protections(branch_protections):
     return repo
 
 
-def cmp_branch_protections(repo):
-    return repo
+def cmp_branch_protections(branch_protections):
+    for repo in branch_protections:
+        if branch_protections[repo].get("message"):
+            print(f"{repo} has no rules")
+        else:
+            print(f"{repo} is set to not strict")
+
+
 
 
 if __name__ == "__main__":
@@ -69,4 +75,7 @@ Options:
 
     repos = get_repos()
     default_branches = get_default_branch(repos)
-    print(get_branch_protections(default_branches))
+    branch_protection = get_branch_protections(default_branches)
+
+
+
