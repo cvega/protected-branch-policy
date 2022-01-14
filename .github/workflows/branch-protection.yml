@@ -38,4 +38,3 @@ jobs:
     - name: Retrieve Repos
       run: |
         python list-repos.py casa-vega ${{ steps.ghapp-token.outputs.token }}
-        cat casa-vega.txt
