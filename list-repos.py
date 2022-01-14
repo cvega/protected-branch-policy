@@ -6,7 +6,7 @@ import sys
 import requests
 
 
-def get_repos(org):
+def get_repos():
     resp = requests.get(f"{url}/orgs/{org}/repos?per_page=100&page=1", headers=headers)
     repos = resp.json()
     while "next" in resp.links.keys():
@@ -18,24 +18,39 @@ def get_repos(org):
             if not repo["archived"] and not repo["fork"]:
                 file.write(f'{repo["name"]}\n')
 
-                
+
 def get_default_branch():
+    repos = []
     with open(f"{org}.txt") as file:
-        while (repo := file.readline().rstrip()):
-            resp = requests.get(f"{url}/repos/{org}/{repo}", headers=headers).json
-            default_branch = resp["default_branch"]
-            print(f'{default_branch}')
-        
+        while repo := file.readline().rstrip():
+            resp = requests.get(f"{url}/repos/{org}/{repo}", headers=headers).json()
+            repos.append(f'{repo},{resp["default_branch"]}')
+
+    with open(f"{org}-default-branch.txt", mode="w") as file:
+        for repo in repos:
+            file.write(f"{repo}\n")
+
+
+def get_branch_protections():
+    with open(f"{org}-default-branch.txt", mode="r") as file:
+        while repo := file.readline().rstrip():
+            repo = repo.split(",")
+            resp = requests.get(
+                f"{url}/repos/{org}/{repo[0]}/branches/{repo[1]}/protection",
+                headers=headers,
+            ).json()
+            print(resp)
+
 
 if __name__ == "__main__":
     if sys.argv[1] == "--help" or sys.argv[1] == "-h":
         print(
-        f"""
-        Usage: {sys.argv[0]} ][-h] <org>\n
-        List repos that are not forks or archived and write to a file (<org>.txt)\n
-        Options:
-        -h | --help                  this message
-        """
+            f"""
+Usage: {sys.argv[0]} [-h] <org> <token>\n
+Update repos into default branch protection state\n
+Options:
+-h | --help                  this message
+"""
         )
         exit()
     url = "https://api.github.com"
@@ -45,6 +60,7 @@ if __name__ == "__main__":
         "Accept": "application/vnd.github.v3+json",
     }
     org = sys.argv[1]
-    
-    get_repos(org)
-    get_default_branch(org)
+
+    get_repos()
+    get_default_branch()
+    get_branch_protections()
