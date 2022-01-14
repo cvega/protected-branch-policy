@@ -29,7 +29,7 @@ if __name__ == "__main__":
         """
         )
         exit()
-    url = "api.github.com"
+    url = "https://api.github.com"
     token = os.getenv("GITHUB_TOKEN")
     headers = {
         "Authorization": f"token {token}",
