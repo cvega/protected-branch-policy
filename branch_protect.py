@@ -42,8 +42,8 @@ def get_branch_protections(default_branch):
 
 def cmp_branch_protections(branch_protections):
     protections = {}
-    for repo in branch_protections:
-        print(repo)
+    for key in branch_protections.iterkeys():
+        print(branch_protections[key])
 
 
 def set_branch_protections(branch_protections):
@@ -61,6 +61,7 @@ Options:
 """
         )
         exit()
+        
     url = "https://api.github.com"
     token = sys.argv[2]
     headers = {
