@@ -27,4 +27,5 @@ jobs:
         pip install -r requirements.txt
     - name: Retrieve Repos
       run: |
-        echo "next"
+        python list-repos.py casa-vega
+        cat casa-vega.txt
