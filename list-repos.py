@@ -29,11 +29,10 @@ if __name__ == "__main__":
         """
         )
         exit()
-    url = os.getenv("GITHUB_API_ENDPOINT")
-    gql = os.getenv("GITHUB_GRAPHQL_ENDPOINT")
-    pat = os.getenv("GITHUB_TOKEN")
+    url = "api.github.com"
+    token = os.getenv("GITHUB_TOKEN")
     headers = {
-        "Authorization": f"token {pat}",
+        "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3+json",
     }
     list_repos(sys.argv[1])
