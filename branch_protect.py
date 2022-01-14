@@ -42,7 +42,7 @@ def get_branch_protections(default_branch):
 
 def cmp_branch_protections(branch_protections):
     protections = {}
-    for key in branch_protections.iterkeys():
+    for key in branch_protections:
         print(branch_protections[key])
 
 
