@@ -14,8 +14,8 @@ def list_repos(org):
 
     with open(f"{org}.txt", mode="w") as file:
         for repo in repos:
-            print(f'{repo}')
-            file.write(f'{repo["full_name"]}\n')
+            if not repo["archived"] and not repo["fork"]:
+                file.write(f'{repo["full_name"]}\n')
 
                 
 if __name__ == "__main__":
