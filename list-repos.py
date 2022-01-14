@@ -8,38 +8,44 @@ import requests
 
 def get_repos():
     resp = requests.get(f"{url}/orgs/{org}/repos?per_page=100&page=1", headers=headers)
-    repos = resp.json()
-    while "next" in resp.links.keys():
+    payload = resp.json()
+    while "next" in resp.links:
         resp = requests.get(resp.links["next"]["url"], headers=headers)
-        repos.extend(resp.json())
+        payload.extend(resp.json())
 
-    with open(f"{org}.txt", mode="w") as file:
-        for repo in repos:
-            if not repo["archived"] and not repo["fork"]:
-                file.write(f'{repo["name"]}\n')
-
-
-def get_default_branch():
     repos = []
-    with open(f"{org}.txt") as file:
-        while repo := file.readline().rstrip():
-            resp = requests.get(f"{url}/repos/{org}/{repo}", headers=headers).json()
-            repos.append(f'{repo},{resp["default_branch"]}')
+    for repo in payload:
+        if not repo["archived"] and not repo["fork"]:
+            repos.append(repo["name"])
 
-    with open(f"{org}-default-branch.txt", mode="w") as file:
-        for repo in repos:
-            file.write(f"{repo}\n")
+    return repos
 
 
-def get_branch_protections():
-    with open(f"{org}-default-branch.txt", mode="r") as file:
-        while repo := file.readline().rstrip():
-            repo = repo.split(",")
-            resp = requests.get(
-                f"{url}/repos/{org}/{repo[0]}/branches/{repo[1]}/protection",
-                headers=headers,
-            ).json()
-            print(resp)
+def get_default_branch(repos):
+    default_branch = {}
+    for repo in repos:
+        resp = requests.get(f"{url}/repos/{org}/{repo}", headers=headers).json()
+        default_branch[repo] = resp["default_branch"]
+    return default_branch
+
+
+def get_branch_protections(default_branch):
+    branch_protections = {}
+    for repo, branch in default_branch.items():
+        resp = requests.get(
+            f"{url}/repos/{org}/{repo}/branches/{branch}/protection",
+            headers=headers,
+        ).json()
+        branch_protections[repo] = resp
+    return branch_protections
+
+
+def set_branch_protections(repo):
+    return repo
+
+
+def cmp_branch_protections(repo):
+    return repo
 
 
 if __name__ == "__main__":
@@ -61,6 +67,6 @@ Options:
     }
     org = sys.argv[1]
 
-    get_repos()
-    get_default_branch()
-    get_branch_protections()
+    repos = get_repos()
+    default_branches = get_default_branch(repos)
+    print(get_branch_protections(default_branches))
