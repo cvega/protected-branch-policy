@@ -14,6 +14,7 @@ def list_repos(org):
 
     with open(f"{org}.txt", mode="w") as file:
         for repo in repos:
+            print(f'{repo}')
             file.write(f'{repo["full_name"]}\n')
 
                 
