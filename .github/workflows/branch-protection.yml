@@ -37,4 +37,4 @@ jobs:
     
     - name: Protect Branches
       run: |
-        python list-repos.py casa-vega ${{ steps.ghapp-token.outputs.token }}
+        python branch_protect.py casa-vega ${{ steps.ghapp-token.outputs.token }}
