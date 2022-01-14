@@ -35,6 +35,6 @@ jobs:
         app_id: ${{ secrets.BRANCH_PROTECTION_APP_ID }}
         private_key: ${{ secrets.BRANCH_PROTECTION_PEM }}
     
-    - name: Retrieve Repos
+    - name: Protect Branches
       run: |
         python list-repos.py casa-vega ${{ steps.ghapp-token.outputs.token }}
