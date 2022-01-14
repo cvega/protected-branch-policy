@@ -22,9 +22,9 @@ def get_repos(org):
 def get_default_branch():
     with open(f"{org}.txt") as file:
         while (repo := file.readline().rstrip()):
-        resp = requests.get(f"{url}/repos/{org}/{repo}", headers=headers).json
-        default_branch = resp["default_branch"]
-        print(f'{default_branch}')
+            resp = requests.get(f"{url}/repos/{org}/{repo}", headers=headers).json
+            default_branch = resp["default_branch"]
+            print(f'{default_branch}')
         
 
 if __name__ == "__main__":
