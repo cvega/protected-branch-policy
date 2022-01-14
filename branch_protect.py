@@ -35,7 +35,7 @@ def get_branch_protections(default_branch):
             f"{url}/repos/{org}/{repo}/branches/{branch}/protection",
             headers=headers,
         ).json()
-        branch_protections[repo] = [branch, resp]
+        branch_protections[repo] = [branch: resp]
     return branch_protections
 
 
