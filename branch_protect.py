@@ -35,14 +35,15 @@ def get_branch_protections(default_branch):
             f"{url}/repos/{org}/{repo}/branches/{branch}/protection",
             headers=headers,
         ).json()
-        branch_protections[repo] = [branch: resp]
+        branch_protections[repo] = {branch: resp}
     return branch_protections
 
 
 def cmp_branch_protections(branch_protections):
     protections = {}
-    for key in branch_protections:
-        print(branch_protections[key])
+    repo, branch = (branch_protections[key] for key in branch_protections)
+    print(repo)
+    print(branch)
 
 
 def set_branch_protections(branch_protections):
