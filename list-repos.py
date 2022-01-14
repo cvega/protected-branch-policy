@@ -21,7 +21,7 @@ def list_repos(org):
 if __name__ == "__main__":
     if sys.argv[1] == "--help" or sys.argv[1] == "-h":
         print(
-            f"""
+        f"""
         Usage: {sys.argv[0]} ][-h] <org>\n
         List repos that are not forks or archived and write to a file (<org>.txt)\n
         Options:
