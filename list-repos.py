@@ -19,7 +19,7 @@ def get_repos(org):
                 file.write(f'{repo["name"]}\n')
 
                 
-def get_default_branch:
+def get_default_branch():
     with open(f"{org}.txt") as file:
         while (repo := file.readline().rstrip()):
         resp = requests.get(f"{url}/repos/{org}/{repo}", headers=headers).json
