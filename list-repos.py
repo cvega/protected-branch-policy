@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 
 import os
-import requests
 import sys
 
+import requests
 
-def list_repos(org):
+
+def get_repos(org):
     resp = requests.get(f"{url}/orgs/{org}/repos?per_page=100&page=1", headers=headers)
     repos = resp.json()
     while "next" in resp.links.keys():
@@ -15,9 +16,17 @@ def list_repos(org):
     with open(f"{org}.txt", mode="w") as file:
         for repo in repos:
             if not repo["archived"] and not repo["fork"]:
-                file.write(f'{repo["full_name"]}\n')
+                file.write(f'{repo["name"]}\n')
 
                 
+def get_default_branch:
+    with open(f"{org}.txt") as file:
+        while (repo := file.readline().rstrip()):
+        resp = requests.get(f"{url}/repos/{org}/{repo}", headers=headers).json
+        default_branch = resp["default_branch"]
+        print(f'{default_branch}')
+        
+
 if __name__ == "__main__":
     if sys.argv[1] == "--help" or sys.argv[1] == "-h":
         print(
@@ -35,4 +44,5 @@ if __name__ == "__main__":
         "Authorization": f"token {token}",
         "Accept": "application/vnd.github.v3+json",
     }
-    list_repos(sys.argv[1])
+    get_repos(sys.argv[1])
+    get_default_branch()
