@@ -76,6 +76,7 @@ Options:
     repos = get_repos()
     default_branches = get_default_branch(repos)
     branch_protection = get_branch_protections(default_branches)
+    print(branch_protection)
 
 
 
