@@ -30,12 +30,14 @@ jobs:
     
     - name: Generate Token
       id: ghapp-token
-      uses: tibdex/github-app-token@v1
+      uses: getsentry/action-github-app-token@v1
       with:
         app_id: ${{ secrets.BRANCH_PROTECTION_APP_ID }}
         private_key: ${{ secrets.BRANCH_PROTECTION_PEM }}
     
     - name: Retrieve Repos
+      env:
+        TOKEN: ${{ steps.generate_token.outputs.token }
       run: |
-        python list-repos.py casa-vega ${{ steps.ghapp-token.outputs.token }}
+        python list-repos.py casa-vega ${TOKEN}
         cat casa-vega.txt
