@@ -17,15 +17,25 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    
     - name: Set up Python 3.10
       uses: actions/setup-python@v2
       with:
         python-version: "3.10"
+    
     - name: Install dependencies
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
+    
+    - name: Generate Token
+      id: ghapp-token
+      uses: tibdex/github-app-token@v1
+      with:
+        app_id: ${{ secrets.BRANCH_PROTECTION_APP_ID }}
+        private_key: ${{ secrets.BRANCH_PROTECTION_PEM }}
+    
     - name: Retrieve Repos
       run: |
-        python list-repos.py casa-vega ${{ secrets.GITHUB_TOKEN }}
+        python list-repos.py casa-vega ${{ steps.ghapp-token.outputs.token }}
         cat casa-vega.txt
