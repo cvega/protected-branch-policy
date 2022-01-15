@@ -41,7 +41,7 @@ def get_branch_protections(default_branch):
 
 def cmp_branch_protections(rules):
     protections = {}
-    for repo in branch_protections:
+    for repo in rules:
         print(rules[repo]['branch'])
         print(rules[repo]['resp'])
         
