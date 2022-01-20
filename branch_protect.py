@@ -35,7 +35,6 @@ def get_branch_protections(default_branch):
             f"{url}/repos/{org}/{repo}/branches/{branch}/protection",
             headers=headers,
         ).json()
-        print(resp)
         branch_protections[repo] = {branch: resp}
     return branch_protections
 
@@ -46,7 +45,7 @@ def cmp_branch_protections(branch_protections):
         print(rm_keys(protection, "url"))
         print("### conf:\n")
         print(conf)
-        if rm_keys(protection, "url") != conf:
+        if rm_keys(protection[next(iter(protection))], "url") != conf:
             set_branch_protections(branch_protections, repo)
 
 
