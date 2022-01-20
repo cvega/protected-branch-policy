@@ -1,4 +1,5 @@
 {
+    "required_status_checks": null,
     "required_pull_request_reviews": {
         "dismiss_stale_reviews": true,
         "require_code_owner_reviews": false,
@@ -9,5 +10,6 @@
     "required_linear_history": false,
     "allow_force_pushes": false,
     "allow_deletions": false,
-    "required_conversation_resolution": false
+    "required_conversation_resolution": false,
+    "restrictions": null
 }
