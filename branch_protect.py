@@ -39,18 +39,24 @@ def get_branch_protections(default_branch):
     return branch_protections
 
 
-def set_branch_protections(branch_protections):
-    return repo
-
-
 def cmp_branch_protections(branch_protections):
-    # delete key from dict recursively
     for repo, protection in branch_protections.items():
         if rm_keys(protection, "url") != conf:
-            print('change detected!')
+            set_branch_protections(branch_protections, repo)
 
 
-# recursively remove the url dictionary keys to match conf/rules
+def set_branch_protections(branch_protections, repo):
+    for branch, resp in branch_protections[repo].items():
+        resp = requests.put(
+            f"{url}/repos/{org}/{repo}/branches/{branch}/protection",
+            headers=headers,
+            json=conf,
+        )
+        print(resp.json())
+        print(resp.status_code)
+
+
+# recursively remove the url dictionary keys
 def rm_keys(d, key):
     return {
         k: rm_keys(v, key) if isinstance(v, dict) else v
@@ -84,4 +90,4 @@ Options:
     repos = get_repos()
     default_branches = get_default_branch(repos)
     branch_protection = get_branch_protections(default_branches)
-    is_protected = cmp_branch_protections(branch_protection)
+    updates = cmp_branch_protections(branch_protection)
