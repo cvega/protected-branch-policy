@@ -42,6 +42,10 @@ def get_branch_protections(default_branch):
 
 def cmp_branch_protections(branch_protections):
     for repo, protection in branch_protections.items():
+        print("### rm keys:\n")
+        print(rm_keys(protection, "url"))
+        print("### conf:\n")
+        print(conf)
         if rm_keys(protection, "url") != conf:
             set_branch_protections(branch_protections, repo)
 
