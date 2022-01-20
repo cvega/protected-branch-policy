@@ -50,7 +50,7 @@ def set_branch_protections(branch_protections, repo):
         resp = requests.put(
             f"{url}/repos/{org}/{repo}/branches/{branch}/protection",
             headers=headers,
-            json=conf,
+            json=json.dumps(conf),
         )
         print(resp.json())
         print(resp.status_code)
@@ -85,7 +85,7 @@ Options:
     org = sys.argv[1]
 
     with open('branch_protect.json') as f:
-        conf = rm_keys(json.load(f), "url")
+        conf = json.load(f)
 
     repos = get_repos()
     default_branches = get_default_branch(repos)
