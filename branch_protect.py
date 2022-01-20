@@ -53,7 +53,7 @@ def cmp_branch_protections(branch_protections):
 # recursively remove the url dictionary keys to match conf/rules
 def rm_keys(d, key):
     return {
-        k: rm_keys(v) if isinstance(v, dict) else v
+        k: rm_keys(v, key) if isinstance(v, dict) else v
         for k, v in d.items()
         if k != key
     }
