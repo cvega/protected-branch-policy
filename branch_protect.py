@@ -50,7 +50,7 @@ def set_branch_protections(branch_protections, repo):
         resp = requests.put(
             f"{url}/repos/{org}/{repo}/branches/{branch}/protection",
             headers=headers,
-            json=json.dumps(payload),
+            json=payload
         )
         print(resp.json())
         print(resp.status_code)
