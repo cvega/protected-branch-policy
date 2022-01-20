@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 
 import json
-from string import Template
 import sys
 
 import requests
