@@ -54,8 +54,6 @@ def set_branch_protections(branch_protections, repo):
             headers=headers,
             json=payload
         )
-        print(resp.json())
-        print(resp.status_code)
 
 
 # recursively remove the url dictionary keys
