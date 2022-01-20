@@ -8,7 +8,7 @@
         "enabled": false
     },
     "enforce_admins": {
-        "enabled": true
+        "enabled": false
     },
     "required_linear_history": {
         "enabled": false
