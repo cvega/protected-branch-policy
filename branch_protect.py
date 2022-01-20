@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
-import os
+import json
+from string import Template
 import sys
 
 import requests
@@ -35,19 +36,28 @@ def get_branch_protections(default_branch):
             f"{url}/repos/{org}/{repo}/branches/{branch}/protection",
             headers=headers,
         ).json()
-        branch_protections[repo] = {'branch': branch, 'resp': resp}
+        branch_protections[repo] = {branch: resp}
     return branch_protections
 
 
-def cmp_branch_protections(rules):
-    protections = {}
-    for repo in rules:
-        print(rules[repo]['branch'])
-        print(rules[repo]['resp'])
-        
-
 def set_branch_protections(branch_protections):
     return repo
+
+
+def cmp_branch_protections(branch_protections):
+    # delete key from dict recursively
+    for repo, protection in branch_protections.items():
+        if rm_keys(protection, "url") != conf:
+            print('change detected!')
+
+
+# recursively remove the url dictionary keys to match conf/rules
+def rm_keys(d, key):
+    return {
+        k: rm_keys(v) if isinstance(v, dict) else v
+        for k, v in d.items()
+        if k != key
+    }
 
 
 if __name__ == "__main__":
@@ -61,7 +71,6 @@ Options:
 """
         )
         exit()
-        
     url = "https://api.github.com"
     token = sys.argv[2]
     headers = {
@@ -70,11 +79,10 @@ Options:
     }
     org = sys.argv[1]
 
+    with open('branch_protect.json') as f:
+        conf = rm_keys(json.load(f), "url")
+
     repos = get_repos()
     default_branches = get_default_branch(repos)
     branch_protection = get_branch_protections(default_branches)
     is_protected = cmp_branch_protections(branch_protection)
-
-
-
-
