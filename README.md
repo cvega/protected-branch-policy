@@ -1,4 +1,4 @@
-# branch-protections
+# protected-branch-policy
 A Simple Action / Python Script to enforce Branch Protections
 
 ### The actions can be scheduled or run manually:
